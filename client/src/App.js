@@ -1,25 +1,29 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {useState, useEffect} from 'react';
+import axios from 'axios'
+
+
 
 function App() {
+  const [drinkInfo, setDrinkInfo] = useState( '' )
+  useEffect(() => {
+    async function fetchData() {
+    const result = await axios.get('/api/cocktails');
+    setDrinkInfo(result.data.drinks[0])}
+    fetchData();
+  }, [])
+
+  const center = {
+    display: 'block',
+    marginRight: 'auto',
+    marginLeft: 'auto',
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+    <h1 style={{textAlign: 'center'}}>Cocktail of the Day</h1>
+    <br></br>
+    <img src={drinkInfo.strDrinkThumb} alt="drink" style={center} height='200px' width='200px' />
+    </>
   );
 }
 
