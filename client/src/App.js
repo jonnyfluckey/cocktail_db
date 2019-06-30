@@ -25,21 +25,40 @@ function App() {
       height: '100%',
       width: '100%',
       position: 'absolute',
-    }
+    },
+    list: {
+      listStyleType: 'none',
+    },
+    hidden: {
+      display: 'none'
+    },
   }
 
-    //  ingredientList( ()=> {
-    //   Object.keys(drinkInfo).map((key, index) => {
-    //     if (drinkInfo[key] != "" && drinkInfo[key].includes("Ingredient") == true) {
-    //       return(
-    //         <>
-    //         <Icon name='chevron right'/>
-    //         <li>{drinkInfo.key}</li>
-    //         </>
-    //       )
-    //     }
-    //   })
-    // })
+  // const ingredientList =  () => {
+  //   debugger
+  //   const ingredients = Object.entries(drinkInfo)
+  //   // for (let x in ingredients) {
+  //   //   if (ingredients[x][0].includes('Ingredient') === true) {
+  //   //     return(
+  //   //       <li>{ingredients[x][1]}</li>
+  //   //     )
+        
+const ingredientList = () => {
+  const ingredients = Object.entries(drinkInfo)
+  const result = []
+  ingredients.map((x, i) => {
+    if ((ingredients[i][0].includes('Ingredient') === true) && (ingredients[i][1] != "")) {
+      result.push(ingredients[i][1])
+    }
+    })
+  result.map((x, i) => {
+    return  (
+      <li>{result[i]}</li>
+    )
+  })
+}
+
+    
 
   return (
     <>
@@ -52,8 +71,23 @@ function App() {
     <Card.Content>
       <Card.Header>{drinkInfo.strDrink}</Card.Header>
       <Card.Meta>
-      <ul>
-   
+      <ul style={style.list}>
+        {/* <li>{drinkInfo.strMeasure1} &nbsp; {drinkInfo.strIngredient1}</li>
+        <li>{drinkInfo.strMeasure2} &nbsp; {drinkInfo.strIngredient2}</li>
+        <li>{drinkInfo.strMeasure3} &nbsp; {drinkInfo.strIngredient3}</li>
+        <li>{drinkInfo.strMeasure4} &nbsp; {drinkInfo.strIngredient4}</li>
+        <li>{drinkInfo.strMeasure5} &nbsp; {drinkInfo.strIngredient5}</li>
+        <li>{drinkInfo.strMeasure6} &nbsp; {drinkInfo.strIngredient6}</li>
+        <li>{drinkInfo.strMeasure7} &nbsp; {drinkInfo.strIngredient7}</li>
+        <li>{drinkInfo.strMeasure8} &nbsp; {drinkInfo.strIngredient8}</li>
+        <li>{drinkInfo.strMeasure9} &nbsp; {drinkInfo.strIngredient9}</li>
+        <li>{drinkInfo.strMeasure10} &nbsp; {drinkInfo.strIngredient10}</li>
+        <li>{drinkInfo.strMeasure11} &nbsp; {drinkInfo.strIngredient11}</li>
+        <li>{drinkInfo.strMeasure12} &nbsp; {drinkInfo.strIngredient12}</li>
+        <li>{drinkInfo.strMeasure13} &nbsp; {drinkInfo.strIngredient13}</li>
+        <li>{drinkInfo.strMeasure14} &nbsp; {drinkInfo.strIngredient14}</li>
+        <li>{drinkInfo.strMeasure15} &nbsp; {drinkInfo.strIngredient15}</li> */}
+        {ingredientList()}
       </ul>
       </Card.Meta>
     </Card.Content>
