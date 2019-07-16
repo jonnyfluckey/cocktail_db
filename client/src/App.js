@@ -28,34 +28,39 @@ function App() {
     },
     list: {
       listStyleType: 'none',
+      display: 'inline-block',
     },
     hidden: {
       display: 'none'
     },
+    container: {
+      paddingRight: '33%',
+      paddingLeft: '33%',
+    },
   }
-
-  // const ingredientList =  () => {
-  //   debugger
-  //   const ingredients = Object.entries(drinkInfo)
-  //   // for (let x in ingredients) {
-  //   //   if (ingredients[x][0].includes('Ingredient') === true) {
-  //   //     return(
-  //   //       <li>{ingredients[x][1]}</li>
-  //   //     )
         
 const ingredientList = () => {
   const ingredients = Object.entries(drinkInfo)
   const result = []
   ingredients.map((x, i) => {
-    if ((ingredients[i][0].includes('Ingredient') === true) && (ingredients[i][1] != "")) {
-      result.push(ingredients[i][1])
+    if ((ingredients[i][0].includes('Ingredient') === true) && (ingredients[i][1] !== "") && (ingredients[i][1] !== null)) {
+      result.push({ ingredient: ingredients[i][1] })
     }
+    
     })
-  result.map((x, i) => {
-    return  (
-      <li>{result[i]}</li>
-    )
-  })
+  return result
+}
+
+const measureList = () => {
+  const measures = Object.entries(drinkInfo)
+  const result = []
+  measures.map((x, i) => {
+    if ((measures[i][0].includes('Measure') === true) && (measures[i][1] !== "") && (measures[i][1] !== null)) {
+      result.push({ measure: measures[i][1] })
+    }
+    
+    })
+  return result
 }
 
     
@@ -66,28 +71,21 @@ const ingredientList = () => {
     <div style={style.background}>
     <h1 style={{textAlign: 'center', color: 'white'}}>Cocktail of the Day</h1>
     <br></br>
-    <Card style={style.center}>
+    <div style={style.container}>
+    <Card style={style.center} fluid>
     <Image src={drinkInfo.strDrinkThumb} centered size={"huge"} />
     <Card.Content>
       <Card.Header>{drinkInfo.strDrink}</Card.Header>
       <Card.Meta>
       <ul style={style.list}>
-        {/* <li>{drinkInfo.strMeasure1} &nbsp; {drinkInfo.strIngredient1}</li>
-        <li>{drinkInfo.strMeasure2} &nbsp; {drinkInfo.strIngredient2}</li>
-        <li>{drinkInfo.strMeasure3} &nbsp; {drinkInfo.strIngredient3}</li>
-        <li>{drinkInfo.strMeasure4} &nbsp; {drinkInfo.strIngredient4}</li>
-        <li>{drinkInfo.strMeasure5} &nbsp; {drinkInfo.strIngredient5}</li>
-        <li>{drinkInfo.strMeasure6} &nbsp; {drinkInfo.strIngredient6}</li>
-        <li>{drinkInfo.strMeasure7} &nbsp; {drinkInfo.strIngredient7}</li>
-        <li>{drinkInfo.strMeasure8} &nbsp; {drinkInfo.strIngredient8}</li>
-        <li>{drinkInfo.strMeasure9} &nbsp; {drinkInfo.strIngredient9}</li>
-        <li>{drinkInfo.strMeasure10} &nbsp; {drinkInfo.strIngredient10}</li>
-        <li>{drinkInfo.strMeasure11} &nbsp; {drinkInfo.strIngredient11}</li>
-        <li>{drinkInfo.strMeasure12} &nbsp; {drinkInfo.strIngredient12}</li>
-        <li>{drinkInfo.strMeasure13} &nbsp; {drinkInfo.strIngredient13}</li>
-        <li>{drinkInfo.strMeasure14} &nbsp; {drinkInfo.strIngredient14}</li>
-        <li>{drinkInfo.strMeasure15} &nbsp; {drinkInfo.strIngredient15}</li> */}
-        {ingredientList()}
+      {measureList().map((x) => {
+          return <li key={x+1}>{x.measure}</li>
+        })}
+      </ul>
+      <ul style={style.list}>
+        {ingredientList().map((x) => {
+          return <li key={x+1}>{x.ingredient}</li>
+        })}
       </ul>
       </Card.Meta>
     </Card.Content>
@@ -96,6 +94,9 @@ const ingredientList = () => {
       <Card.Description>{drinkInfo.strInstructions}</Card.Description>
     </Card.Content>
     </Card>
+    </div>
+    <br></br>
+    <br></br>
     </div>
     </>
   );

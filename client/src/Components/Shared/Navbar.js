@@ -11,15 +11,15 @@ export default class Navbar extends Component {
 
     return (
       <Menu inverted style={{margin: '0'}}>
-        <Menu.Item header>Our Company</Menu.Item>
+        <Menu.Item header>Random Cocktail</Menu.Item>
         <Menu.Item
-          name='aboutUs'
+          name='searchCocktails'
           active={activeItem === 'aboutUs'}
           onClick={this.handleItemClick}
         />
-        <Menu.Item name='jobs' active={activeItem === 'jobs'} onClick={this.handleItemClick} />
+        <Menu.Item name='aboutUs' active={activeItem === 'jobs'} onClick={this.handleItemClick} />
         <Menu.Item
-          name='locations'
+          name='contactUs'
           active={activeItem === 'locations'}
           onClick={this.handleItemClick}
         />
