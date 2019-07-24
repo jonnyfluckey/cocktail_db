@@ -28,9 +28,6 @@ function RandomCocktail() {
       listStyleType: 'none',
       display: 'inline-block',
     },
-    hidden: {
-      display: 'none'
-    },
     container: {
       paddingRight: '33%',
       paddingLeft: '33%',
