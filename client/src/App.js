@@ -1,16 +1,25 @@
 import React, {useState, useEffect} from 'react';
-import axios from 'axios';
-import {Card, Image, Icon} from 'semantic-ui-react';
 import Navbar from './Components/Shared/Navbar';
-import RandomCocktail from './Components/RandomCocktail'
+import RandomCocktail from './Components/RandomCocktail';
+import CocktailSearch from './Components/CocktailSearch';
+import NoMatch from './Components/Shared/NoMatch';
+import { BrowserRouter as Router, Route, Link, Switch} from 'react-router-dom';
 
 
 function App() {
   
   return (
     <>
-    <Navbar/>
-    <RandomCocktail />
+    <Router>
+      <>
+      <Navbar/>
+      <Switch>
+      <Route exact path="/" component={RandomCocktail} />
+      <Route exact path="/search" component={CocktailSearch} />
+      <Route component={NoMatch} />
+      </Switch>
+      </>
+    </Router>
     </>
   );
 }
