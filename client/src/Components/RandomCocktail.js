@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
-import {Card, Image, Icon} from 'semantic-ui-react';
+import {Card, Image} from 'semantic-ui-react';
 
 
 

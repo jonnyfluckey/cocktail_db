@@ -1,9 +1,9 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import Navbar from './Components/Shared/Navbar';
 import RandomCocktail from './Components/RandomCocktail';
 import CocktailSearch from './Components/CocktailSearch';
 import NoMatch from './Components/Shared/NoMatch';
-import { BrowserRouter as Router, Route, Link, Switch} from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 
 
 function App() {
