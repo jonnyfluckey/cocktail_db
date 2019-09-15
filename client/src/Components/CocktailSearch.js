@@ -1,74 +1,60 @@
-import React, {useState, useEffect} from 'react';
-import _ from 'lodash';
-import { Search, Grid, Header, Segment } from 'semantic-ui-react';
+import React, { Component } from 'react';
+import axios from 'axios';
 
-const source = {
-  title: 'Howdy',
-  description: 'A brief description',
-  image: 'my image',
-  price: 2,
-}
+class CocktailSearch extends Component {
+  state = {
+    cocktails: '',
+    loading: false,
+    value: ''
+  };
 
-function CocktailSearch() {
+  search = async val => {
+    this.setState({ loading: true });
+    const res = await axios.get(
+      'https://www.thecocktaildb.com/api/json/v1/1/search.php', {
+        params: {
+          s: val
+        }
+      }
+    )
+    const cocktails = await res.data.drinks;
+    this.setState({ cocktails, loading: false });
+  };
 
-  const [drinkInfo, setDrinkInfo] = useState({
-    isLoading: false,
-    results: [],
-    value: '',
-  })
+  onChangeHandler = async e => {
+    this.search(e.target.value);
+    this.setState({ value: e.target.value });
+  };
 
-  const handleResultSelect = (e, { result }) => setDrinkInfo({value: result.title})
+  renderCocktails = () => {
+    let noCocktails = <h1>There's no cocktails</h1>;
+    if (this.state.cocktails) {
+      const drinks =
+      this.state.cocktails.map( (drink) => {
+        return (
+        <h3>Drink Name: {drink.strDrink}</h3>
+        )
+        }) ;
+        return drinks
+    } else {
+      return noCocktails;
 
-  const handleSearchChange = (e, { value }) => {
-    setDrinkInfo({ isLoading: true, value})
-    
+    }
 
-    setTimeout(() => {
-      if (drinkInfo.value.length < 1) return setDrinkInfo({isLoading: false, results: [], value: ''})
-
-      const re = new RegExp(_.escapeRegExp(value), 'i')
-      const isMatch = ((results) => re.test(results.title))
-
-      setDrinkInfo({
-        isLoading: false,
-        results: _.filter(source, isMatch),
-      })
-      
-    }, 300)
   }
 
-  return (
-    <>
-    <Grid>
-        <Grid.Column width={6}>
-          <Search
-            loading={drinkInfo.isLoading}
-            onResultSelect={handleResultSelect}
-            onSearchChange={_.debounce(handleSearchChange, 500, {
-              leading: true,
-            })}
-            results={drinkInfo.results}
-            value={drinkInfo.value}
-            // {...this.props}
-          />
-        </Grid.Column>
-        <Grid.Column width={10}>
-          <Segment>
-            <Header>State</Header>
-            <pre style={{ overflowX: 'auto' }}>
-              {JSON.stringify(drinkInfo, null, 2)}
-            </pre>
-            <Header>Options</Header>
-            <pre style={{ overflowX: 'auto' }}>
-              {JSON.stringify(source, null, 2)}
-            </pre>
-          </Segment>
-        </Grid.Column>
-      </Grid>
-    </>
-  )
-
-
+  render() {
+    return (
+      <div>
+        <input
+          value={this.state.value}
+          onChange={e => this.onChangeHandler(e)}
+          placeholder="Type something to search"
+        />
+        {this.renderCocktails()}
+      </div>
+    );
+  }
 }
 
-export default CocktailSearch
+export default CocktailSearch;

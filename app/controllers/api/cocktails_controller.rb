@@ -7,4 +7,13 @@ class Api::CocktailsController < ApplicationController
 
   
   end
+
+  def show
+   
+  search = Cocktail.new
+  @cocktail = search.search_cocktail(:id)
+  render json: @cocktail
+
+  end
+
 end

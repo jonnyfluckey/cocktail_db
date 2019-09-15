@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Menu } from 'semantic-ui-react'
+import { Link } from 'react-router-dom';
 
 export default class Navbar extends Component {
   state = {}
@@ -11,11 +12,18 @@ export default class Navbar extends Component {
 
     return (
       <Menu inverted style={{margin: '0'}}>
-        <Menu.Item header>Random Cocktail</Menu.Item>
+        
+        <Menu.Item
+        name='randomCocktails'
+        active={activeItem === 'aboutUs'}
+        onClick={this.handleItemClick}
+        href='/'
+        />
         <Menu.Item
           name='searchCocktails'
           active={activeItem === 'aboutUs'}
           onClick={this.handleItemClick}
+          href='/search'
         />
         <Menu.Item name='aboutUs' active={activeItem === 'jobs'} onClick={this.handleItemClick} />
         <Menu.Item
