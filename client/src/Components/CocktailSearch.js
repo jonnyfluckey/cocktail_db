@@ -1,5 +1,18 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { Search, Button, Modal } from 'semantic-ui-react';
+import CocktailSearchDetail from './CocktailSearchDetail';
+
+const style = {
+  background: {
+    textAlign: 'center', 
+    backgroundColor: '#E4FAFF',
+    height: '100%',
+    width: '100%',
+    padding: '50px',
+    overflow:'hidden'
+  }
+}
 
 class CocktailSearch extends Component {
   state = {
@@ -10,7 +23,7 @@ class CocktailSearch extends Component {
 
   search = async val => {
     this.setState({ loading: true });
-    const res = await axios.get(
+    const res = await axios(
       'https://www.thecocktaildb.com/api/json/v1/1/search.php', {
         params: {
           s: val
@@ -27,30 +40,42 @@ class CocktailSearch extends Component {
   };
 
   renderCocktails = () => {
-    let noCocktails = <h1>There's no cocktails</h1>;
+    let noCocktails = <h3>Could not find a cocktail, try again</h3>;
     if (this.state.cocktails) {
       const drinks =
       this.state.cocktails.map( (drink) => {
         return (
-        <h3>Drink Name: {drink.strDrink}</h3>
+        <>
+        <h3>{drink.strDrink}</h3>
+        <Modal trigger={<Button>See Details</Button>}>
+          <CocktailSearchDetail key={drink.idDrink} {...drink}/>
+        </Modal>
+        </>
         )
         }) ;
         return drinks
-    } else {
+    } if (this.state.cocktails === null) {
       return noCocktails;
 
+    } else {
+      return (<h3>Complete a Search</h3>)
     }
 
   }
 
   render() {
     return (
-      <div>
-        <input
+      <div style={style.background}>
+        <h1>Search for a Cocktail</h1>
+        <br></br>
+        <Search
           value={this.state.value}
-          onChange={e => this.onChangeHandler(e)}
-          placeholder="Type something to search"
+          onSearchChange={e => this.onChangeHandler(e)}
+          loading={this.state.loading}
+          showNoResults={false}
         />
+        <br></br>
+        <h3>Search Results:</h3>
         {this.renderCocktails()}
       </div>
     );
