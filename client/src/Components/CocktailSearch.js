@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { Search, Button, Modal } from 'semantic-ui-react';
+import { Search, Button, Modal, Segment, Image } from 'semantic-ui-react';
 import CocktailSearchDetail from './CocktailSearchDetail';
 
 const style = {
@@ -45,12 +45,13 @@ class CocktailSearch extends Component {
       const drinks =
       this.state.cocktails.map( (drink) => {
         return (
-        <>
+        <div style={{display: 'inline-block', padding: '10px 10px 10px 10px'}}>
+        <Image src={drink.strDrinkThumb} size='small' />
         <h3>{drink.strDrink}</h3>
         <Modal trigger={<Button>See Details</Button>}>
           <CocktailSearchDetail key={drink.idDrink} {...drink}/>
         </Modal>
-        </>
+        </div>
         )
         }) ;
         return drinks
@@ -76,7 +77,9 @@ class CocktailSearch extends Component {
         />
         <br></br>
         <h3>Search Results:</h3>
+        <Segment raised style={{marginLeft: 'auto', marginRight: 'auto', width: '75%'}}>
         {this.renderCocktails()}
+        </Segment>
       </div>
     );
   }
