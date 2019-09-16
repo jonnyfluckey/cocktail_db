@@ -59,7 +59,7 @@ class CocktailSearch extends Component {
       return noCocktails;
 
     } else {
-      return (<h3>Complete a Search</h3>)
+      return (<h3>Fun Awaits! Just Enter a Search</h3>)
     }
 
   }
