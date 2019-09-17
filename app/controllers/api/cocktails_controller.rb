@@ -11,7 +11,7 @@ class Api::CocktailsController < ApplicationController
   def show
    
   search = Cocktail.new
-  @cocktail = search.search_cocktail(:id)
+  @cocktail = search.search_cocktail(params[:id])
   render json: @cocktail
 
   end

@@ -24,11 +24,7 @@ class CocktailSearch extends Component {
   search = async val => {
     this.setState({ loading: true });
     const res = await axios(
-      'https://www.thecocktaildb.com/api/json/v1/1/search.php', {
-        params: {
-          s: val
-        }
-      }
+      `/api/cocktails/${val}`
     )
     const cocktails = await res.data.drinks;
     this.setState({ cocktails, loading: false });
