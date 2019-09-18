@@ -5,12 +5,12 @@ import CocktailSearchDetail from './CocktailSearchDetail';
 
 const style = {
   background: {
+    position: 'absolute',
     textAlign: 'center', 
     backgroundColor: '#E4FAFF',
     height: '100%',
     width: '100%',
     padding: '50px',
-    overflow:'hidden'
   }
 }
 
@@ -27,7 +27,10 @@ class CocktailSearch extends Component {
       `/api/cocktails/${val}`
     )
     const cocktails = await res.data.drinks;
-    this.setState({ cocktails, loading: false });
+    this.setState({ cocktails, loading: false })
+    if (this.state.value === '') {
+    this.setState({ cocktails: ''})
+    }
   };
 
   onChangeHandler = async e => {
@@ -62,6 +65,7 @@ class CocktailSearch extends Component {
 
   render() {
     return (
+      <>
       <div style={style.background}>
         <h1>Search for a Cocktail</h1>
         <br></br>
@@ -77,6 +81,7 @@ class CocktailSearch extends Component {
         {this.renderCocktails()}
         </Segment>
       </div>
+      </>
     );
   }
 }

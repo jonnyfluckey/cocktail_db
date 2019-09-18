@@ -20,9 +20,11 @@ function RandomCocktail() {
     marginLeft: 'auto',
     },
     background: {
-      backgroundImage: "url('https://images.unsplash.com/photo-1540224769541-7e6e20a42330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=668&q=80')",
+      position: 'absolute',
+      backgroundColor: '#E4FAFF',
       height: '100%',
       width: '100%',
+      padding: '50px'
     },
     list: {
       listStyleType: 'none',
@@ -63,7 +65,7 @@ const measureList = () => {
   return (
     <>
     <div style={style.background}>
-    <h1 style={{textAlign: 'center', color: 'white'}}>Cocktail of the Day</h1>
+    <h1 style={{textAlign: 'center'}}>Cocktail of the Day</h1>
     <br></br>
     <div style={style.container}>
     <Card style={style.center} fluid>

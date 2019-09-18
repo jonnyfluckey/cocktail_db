@@ -1,5 +1,4 @@
 require 'rest-client'
-require 'uri'
 
 class Cocktail
 

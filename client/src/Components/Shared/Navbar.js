@@ -16,7 +16,7 @@ export default class Navbar extends Component {
         name='randomCocktails'
         active={activeItem === 'aboutUs'}
         onClick={this.handleItemClick}
-        href='/'
+        href='/random'
         />
         <Menu.Item
           name='searchCocktails'
