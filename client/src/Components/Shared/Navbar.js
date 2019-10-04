@@ -1,36 +1,51 @@
-import React, { Component } from 'react'
-import { Menu } from 'semantic-ui-react'
+import React, { Component } from "react";
+import { Menu } from "semantic-ui-react";
+import { NavLink } from "react-router-dom";
+import AuthContext from "../../auth/AuthContext";
 
 export default class Navbar extends Component {
-  state = {}
+  // state = {
+  //   profile: null,
+  //   error: ""
+  // };
 
-  handleItemClick = (e, { name }) => this.setState({ activeItem: name })
+  // componentDidUpdate() {
+  //   if (this.props.auth.isAuthenticated()) {
+  //     this.loadUserProfile();
+  //   }
+  // }
+
+  // loadUserProfile() {
+  //   this.props.auth.getProfile((profile, error) =>
+  //     this.setState({ profile, error })
+  //   );
+  // }
 
   render() {
-    const { activeItem } = this.state
-
     return (
-      <Menu inverted style={{margin: '0'}}>
-        
-        <Menu.Item
-        name='randomCocktails'
-        active={activeItem === 'aboutUs'}
-        onClick={this.handleItemClick}
-        href='/random'
-        />
-        <Menu.Item
-          name='searchCocktails'
-          active={activeItem === 'aboutUs'}
-          onClick={this.handleItemClick}
-          href='/search'
-        />
-        <Menu.Item name='aboutUs' active={activeItem === 'jobs'} onClick={this.handleItemClick} />
-        <Menu.Item
-          name='contactUs'
-          active={activeItem === 'locations'}
-          onClick={this.handleItemClick}
-        />
-      </Menu>
-    )
+      <AuthContext.Consumer>
+        {auth => (
+          <Menu inverted style={{ margin: "0" }}>
+            <Menu.Item as={NavLink} to="/random">
+              Random Cocktail
+            </Menu.Item>
+            <Menu.Item as={NavLink} to="/search">
+              Search Cocktail
+            </Menu.Item>
+            {auth.isAuthenticated() && (
+              <Menu.Item as={NavLink} to="/profile">
+                Profile
+              </Menu.Item>
+            )}
+            <Menu.Item
+              onClick={auth.isAuthenticated() ? auth.logout : auth.login}
+              position="right"
+            >
+              {auth.isAuthenticated() ? "Log Out" : "Log In"}
+            </Menu.Item>
+          </Menu>
+        )}
+      </AuthContext.Consumer>
+    );
   }
 }
