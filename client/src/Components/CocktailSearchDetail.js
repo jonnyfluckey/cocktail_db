@@ -1,5 +1,5 @@
 import React from "react";
-import { Modal, Image, Table } from "semantic-ui-react";
+import { Modal, Image, Table, Button, Icon } from "semantic-ui-react";
 
 function CocktailSearchDetail(props) {
   return (
@@ -68,6 +68,11 @@ function CocktailSearchDetail(props) {
           </Table>
           <p>Instructions:</p>
           <p>{props.strInstructions}</p>
+          <br></br>
+          <Button color="blue">
+            <Icon name="glass martini" />
+            Save to Favorites
+          </Button>
           <br></br>
         </Modal.Description>
       </Modal.Content>

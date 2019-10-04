@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Menu } from "semantic-ui-react";
+import { Menu, Dropdown } from "semantic-ui-react";
 import { NavLink } from "react-router-dom";
 import AuthContext from "../../auth/AuthContext";
 
@@ -33,9 +33,15 @@ export default class Navbar extends Component {
               Search Cocktail
             </Menu.Item>
             {auth.isAuthenticated() && (
-              <Menu.Item as={NavLink} to="/profile">
-                Profile
-              </Menu.Item>
+              <Dropdown item text="Profile" pointing>
+                <Dropdown.Menu>
+                  <Dropdown.Item as={NavLink} to="/profile">
+                    About You
+                  </Dropdown.Item>
+                  <Dropdown.Item disabled>Favorites</Dropdown.Item>
+                  <Dropdown.Item disabled>Preferences</Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
             )}
             <Menu.Item
               onClick={auth.isAuthenticated() ? auth.logout : auth.login}
