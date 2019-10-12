@@ -4,23 +4,6 @@ import { NavLink } from "react-router-dom";
 import AuthContext from "../../auth/AuthContext";
 
 export default class Navbar extends Component {
-  // state = {
-  //   profile: null,
-  //   error: ""
-  // };
-
-  // componentDidUpdate() {
-  //   if (this.props.auth.isAuthenticated()) {
-  //     this.loadUserProfile();
-  //   }
-  // }
-
-  // loadUserProfile() {
-  //   this.props.auth.getProfile((profile, error) =>
-  //     this.setState({ profile, error })
-  //   );
-  // }
-
   render() {
     return (
       <AuthContext.Consumer>
@@ -38,7 +21,9 @@ export default class Navbar extends Component {
                   <Dropdown.Item as={NavLink} to="/profile">
                     About You
                   </Dropdown.Item>
-                  <Dropdown.Item disabled>Favorites</Dropdown.Item>
+                  <Dropdown.Item as={NavLink} to="/favorites">
+                    Favorites
+                  </Dropdown.Item>
                   <Dropdown.Item disabled>Preferences</Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>

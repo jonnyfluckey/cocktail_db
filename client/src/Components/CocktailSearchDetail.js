@@ -1,7 +1,32 @@
-import React from "react";
-import { Modal, Image, Table, Button, Icon } from "semantic-ui-react";
+import React, { useEffect, useState } from "react";
+import { Modal, Image, Table, Button, Icon, Message } from "semantic-ui-react";
+import axios from "axios";
 
 function CocktailSearchDetail(props) {
+  const [profile, setProfile] = useState(null);
+  const [error, setError] = useState("");
+  const [wasSuccessful, setWasSuccessful] = useState(false);
+
+  useEffect(() => {
+    loadUserProfile();
+  }, [profile]);
+
+  function loadUserProfile() {
+    props.auth.getProfile(
+      (profile, error) => setProfile(profile),
+      setError(error)
+    );
+  }
+  function storeDrink() {
+    axios
+      .post("/api/recipes", {
+        email: profile.email,
+        drinkid: props.idDrink
+      })
+      .then(response => {
+        setWasSuccessful(true);
+      });
+  }
   return (
     <>
       <Modal.Header>{props.strDrink}</Modal.Header>
@@ -69,10 +94,21 @@ function CocktailSearchDetail(props) {
           <p>Instructions:</p>
           <p>{props.strInstructions}</p>
           <br></br>
-          <Button color="blue">
-            <Icon name="glass martini" />
-            Save to Favorites
-          </Button>
+          {props.auth.isAuthenticated() ? (
+            <Button color="blue" onClick={() => storeDrink()}>
+              <Icon name="glass martini" />
+              Save to Favorites
+            </Button>
+          ) : (
+            <Button color="blue" onClick={props.auth.login}>
+              <Icon name="glass martini" />
+              Save to Favorites
+            </Button>
+          )}
+          <br></br>
+          {wasSuccessful ? (
+            <Message positive>Your cocktail was saved successfully!</Message>
+          ) : null}
           <br></br>
         </Modal.Description>
       </Modal.Content>

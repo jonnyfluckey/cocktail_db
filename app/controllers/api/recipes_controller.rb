@@ -1,11 +1,24 @@
 class Api::RecipesController < ApplicationController
+
+  require 'pry'
+
+  def index
+    render json: Recipe.all
+  end
  
   def show
-
-    render json: Recipe.find(params[:email])
+    @parameter = params[:id]
+    @recipe = Recipe.where(email: @parameter)
+    render json: @recipe
   end
 
-  def add
+  def create
+    @recipe = Recipe.new(recipe_params)
+      if @recipe.save
+        render json: @recipe
+      else
+        render json: { errors: @recipe.errors }, status: :unprocessable_entity
+      end
   end
 
   def edit
