@@ -16,4 +16,10 @@ class Api::CocktailsController < ApplicationController
 
   end
 
+  def showbyid
+    searchid = Cocktail.new
+    @cocktail = searchid.search_cocktail_by_id(params[:id])
+    render json: @cocktail
+  end
+
 end

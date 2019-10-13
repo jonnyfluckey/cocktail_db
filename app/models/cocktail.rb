@@ -12,5 +12,10 @@ def search_cocktail(search)
   RestClient.get('https://www.thecocktaildb.com/api/json/v1/1/search.php', {params: {s: search}})
 end
 
+def search_cocktail_by_id(search)
+  
+  RestClient.get('https://www.thecocktaildb.com/api/json/v1/1/lookup.php', {params: {i: search}})
+end
+
 end
 
