@@ -1,6 +1,21 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { Table, Image, Button } from "semantic-ui-react";
+import { Segment, Image, Button, Modal, Grid, Icon } from "semantic-ui-react";
+import CocktailSearchDetail from "../CocktailSearchDetail";
+
+const style = {
+  background: {
+    position: "absolute",
+    textAlign: "center",
+    backgroundColor: "#E4FAFF",
+    height: "100%",
+    width: "100%",
+    padding: "50px"
+  },
+  button: {
+    display: "block"
+  }
+};
 
 class Favorites extends Component {
   state = {
@@ -35,40 +50,96 @@ class Favorites extends Component {
   async loadFavoritesFromApi(favorites) {
     const favoriteArray = [];
     favorites.map(drink => {
-      axios.get(`/api/cocktails/showbyid/${drink.drinkid}`).then(res => {
-        const favoriteData = res.data.drinks[0];
-        favoriteArray.push(favoriteData);
-      });
+      axios
+        .get(`/api/cocktails/showbyid/${drink.drinkid}`)
+        .then(res => {
+          const favoriteData = res.data.drinks[0];
+          favoriteArray.push(favoriteData);
+        })
+        .then(() => {
+          this.setState({ favoriteArray, favoritesLoading: false });
+        });
     });
-    this.setState({ favoriteArray, favoritesLoading: false });
+  }
+
+  showFavorites() {
+    return (
+      <>
+        {this.state.favoriteArray ? (
+          this.state.favoriteArray.map((drink, i) => (
+            <div
+              style={{
+                // display: "inline-block",
+                padding: "10px 10px 10px 10px",
+                textAlign: "center"
+              }}
+              key={i}
+            >
+              <Grid columns={3} divided celled>
+                <Grid.Row>
+                  <Grid.Column>
+                    <Image src={drink.strDrinkThumb} size="small" centered />
+                  </Grid.Column>
+                  <Grid.Column verticalAlign="middle">
+                    <h3>{drink.strDrink}</h3>
+                  </Grid.Column>
+                  <Grid.Column verticalAlign="middle">
+                    <Modal trigger={<Button>See Details</Button>}>
+                      <CocktailSearchDetail
+                        key={drink.idDrink}
+                        {...drink}
+                        auth={this.props.auth}
+                      />
+                    </Modal>
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    <Button.Group>
+                      <Button animated color="grey">
+                        <Button.Content visible>
+                          <Icon name="share" />
+                        </Button.Content>
+                        <Button.Content hidden>Share</Button.Content>
+                      </Button>
+                      <br></br>
+                      <Button animated color="yellow">
+                        <Button.Content visible>
+                          <Icon name="print" />
+                        </Button.Content>
+                        <Button.Content hidden>Print</Button.Content>
+                      </Button>
+                      <br></br>
+                      <Button animated color="red">
+                        <Button.Content visible>
+                          <Icon name="delete" />
+                        </Button.Content>
+                        <Button.Content hidden>Delete</Button.Content>
+                      </Button>
+                    </Button.Group>
+                  </Grid.Column>
+                </Grid.Row>
+              </Grid>
+            </div>
+          ))
+        ) : (
+          <div>Loading...</div>
+        )}
+      </>
+    );
   }
   render() {
-    const { favorites, favoritesLoading, favoriteArray } = this.state;
+    const { favoritesLoading } = this.state;
 
     if (favoritesLoading) return "Loading...";
     return (
-      <div>
+      <div style={style.background}>
         <h1>Favorites page</h1>
-        {favoriteArray === [] ? (
-          <h2>You have no favorites, go find some cocktails!</h2>
-        ) : (
-          <Table>
-            <Table.Header>
-              <Table.Row>
-                <Table.HeaderCell />
-                <Table.HeaderCell>Cocktail Name</Table.HeaderCell>
-              </Table.Row>
-            </Table.Header>
-            <Table.Body></Table.Body>
-            <Table.Footer>
-              <Table.Row>
-                <Table.Cell>
-                  <Button>Test Button</Button>
-                </Table.Cell>
-              </Table.Row>
-            </Table.Footer>
-          </Table>
-        )}
+        <Segment
+          raised
+          style={{ marginLeft: "auto", marginRight: "auto", width: "75%" }}
+        >
+          {this.showFavorites()}
+        </Segment>
       </div>
     );
   }
