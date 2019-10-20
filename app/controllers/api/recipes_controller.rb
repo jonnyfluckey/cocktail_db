@@ -24,7 +24,11 @@ class Api::RecipesController < ApplicationController
   def edit
   end
 
-  def delete
+  def destroy
+    @parameter = params[:id]
+    @recipe = Recipe.where(drinkid: @parameter)
+    Recipe.delete(@recipe.ids)
+    render json: {message: "Favorite Deleted"}
   end
 
   private

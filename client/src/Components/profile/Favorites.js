@@ -1,6 +1,14 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { Segment, Image, Button, Modal, Grid, Icon } from "semantic-ui-react";
+import {
+  Segment,
+  Image,
+  Button,
+  Modal,
+  Grid,
+  Icon,
+  Confirm
+} from "semantic-ui-react";
 import CocktailSearchDetail from "../CocktailSearchDetail";
 
 const style = {
@@ -23,7 +31,8 @@ class Favorites extends Component {
     error: "",
     favorites: [],
     favoritesLoading: false,
-    favoriteArray: []
+    favoriteArray: [],
+    show: false
   };
 
   componentDidMount() {
@@ -62,64 +71,86 @@ class Favorites extends Component {
     });
   }
 
+  deleteFavorite(id) {
+    debugger;
+    axios.delete(`/api/recipes/${id}`).then(res => {
+      this.loadUserFavorites(this.state.profile.email);
+    });
+  }
+
+  async findFavorite(drinkId) {
+    debugger;
+    const res = await this.state.favorites.find(drink => {
+      if (drink.drinkid === drinkId) {
+        return drink.id;
+      }
+    });
+    return res;
+  }
+
   showFavorites() {
     return (
       <>
         {this.state.favoriteArray ? (
           this.state.favoriteArray.map((drink, i) => (
-            <div
-              style={{
-                // display: "inline-block",
-                padding: "10px 10px 10px 10px",
-                textAlign: "center"
-              }}
-              key={i}
-            >
-              <Grid columns={3} divided celled>
-                <Grid.Row>
-                  <Grid.Column>
-                    <Image src={drink.strDrinkThumb} size="small" centered />
-                  </Grid.Column>
-                  <Grid.Column verticalAlign="middle">
-                    <h3>{drink.strDrink}</h3>
-                  </Grid.Column>
-                  <Grid.Column verticalAlign="middle">
-                    <Modal trigger={<Button>See Details</Button>}>
-                      <CocktailSearchDetail
-                        key={drink.idDrink}
-                        {...drink}
-                        auth={this.props.auth}
-                      />
-                    </Modal>
-                    <br></br>
-                    <br></br>
-                    <br></br>
-                    <Button.Group>
-                      <Button animated color="grey">
-                        <Button.Content visible>
-                          <Icon name="share" />
-                        </Button.Content>
-                        <Button.Content hidden>Share</Button.Content>
-                      </Button>
-                      <br></br>
-                      <Button animated color="yellow">
-                        <Button.Content visible>
-                          <Icon name="print" />
-                        </Button.Content>
-                        <Button.Content hidden>Print</Button.Content>
-                      </Button>
-                      <br></br>
-                      <Button animated color="red">
-                        <Button.Content visible>
-                          <Icon name="delete" />
-                        </Button.Content>
-                        <Button.Content hidden>Delete</Button.Content>
-                      </Button>
-                    </Button.Group>
-                  </Grid.Column>
-                </Grid.Row>
-              </Grid>
-            </div>
+            <Grid.Row key={i}>
+              <Grid.Column>
+                <Image src={drink.strDrinkThumb} size="small" centered />
+              </Grid.Column>
+              <Grid.Column verticalAlign="middle">
+                <h3>{drink.strDrink}</h3>
+              </Grid.Column>
+              <Grid.Column verticalAlign="middle">
+                <Modal trigger={<Button>See Details</Button>}>
+                  <CocktailSearchDetail
+                    key={drink.idDrink}
+                    {...drink}
+                    auth={this.props.auth}
+                  />
+                </Modal>
+                <br></br>
+                <br></br>
+                <br></br>
+                <Button.Group>
+                  <Button animated color="grey">
+                    <Button.Content visible>
+                      <Icon name="share" />
+                    </Button.Content>
+                    <Button.Content hidden>Share</Button.Content>
+                  </Button>
+                  <br></br>
+                  <Button animated color="yellow">
+                    <Button.Content visible>
+                      <Icon name="print" />
+                    </Button.Content>
+                    <Button.Content hidden>Print</Button.Content>
+                  </Button>
+                  <br></br>
+                  <Button
+                    animated
+                    color="red"
+                    onClick={() => {
+                      this.setState({ show: true });
+                    }}
+                  >
+                    <Button.Content visible>
+                      <Icon name="delete" />
+                    </Button.Content>
+                    <Button.Content hidden>Delete</Button.Content>
+                  </Button>
+                  <Confirm
+                    open={this.state.show}
+                    onConfirm={() => {
+                      this.deleteFavorite(this.findFavorite(drink.idDrink));
+                      this.setState({ show: false });
+                    }}
+                    onCancel={() => {
+                      this.setState({ show: false });
+                    }}
+                  />
+                </Button.Group>
+              </Grid.Column>
+            </Grid.Row>
           ))
         ) : (
           <div>Loading...</div>
@@ -138,7 +169,9 @@ class Favorites extends Component {
           raised
           style={{ marginLeft: "auto", marginRight: "auto", width: "75%" }}
         >
-          {this.showFavorites()}
+          <Grid columns={3} divided celled>
+            {this.showFavorites()}
+          </Grid>
         </Segment>
       </div>
     );
