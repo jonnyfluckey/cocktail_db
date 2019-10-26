@@ -9,7 +9,7 @@ function CocktailSearchDetail(props) {
 
   useEffect(() => {
     loadUserProfile();
-  }, [profile]);
+  });
 
   function loadUserProfile() {
     props.auth.getProfile(

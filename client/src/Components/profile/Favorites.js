@@ -1,15 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
-import {
-  Segment,
-  Image,
-  Button,
-  Modal,
-  Grid,
-  Icon,
-  Confirm
-} from "semantic-ui-react";
-import CocktailSearchDetail from "../CocktailSearchDetail";
+import { Segment, Grid } from "semantic-ui-react";
+import FavoriteDetail from "./FavoriteDetail";
 
 const style = {
   background: {
@@ -58,7 +50,7 @@ class Favorites extends Component {
 
   async loadFavoritesFromApi(favorites) {
     const favoriteArray = [];
-    favorites.map(drink => {
+    await favorites.map(drink => {
       axios
         .get(`/api/cocktails/showbyid/${drink.drinkid}`)
         .then(res => {
@@ -66,100 +58,38 @@ class Favorites extends Component {
           favoriteArray.push(favoriteData);
         })
         .then(() => {
-          this.setState({ favoriteArray, favoritesLoading: false });
+          this.setState({
+            favoriteArray
+          });
+        })
+        .then(() => {
+          this.setState({ favoritesLoading: false });
         });
     });
   }
 
-  deleteFavorite(id) {
-    debugger;
-    axios.delete(`/api/recipes/${id}`).then(res => {
-      this.loadUserFavorites(this.state.profile.email);
-    });
-  }
-
-  async findFavorite(drinkId) {
-    debugger;
-    const res = await this.state.favorites.find(drink => {
-      if (drink.drinkid === drinkId) {
-        return drink.id;
+  deleteFavorite = id => {
+    const favorites = this.state.favorites;
+    const filterFavorites = favorites.filter(drink => drink.drinkid !== id);
+    this.setState(
+      {
+        favorites: filterFavorites
+      },
+      () => {
+        this.loadFavoritesFromApi(this.state.favorites);
+        axios.delete(`/api/recipes/${id}`).then(res => {
+          console.log(res);
+        });
       }
-    });
-    return res;
-  }
-
-  showFavorites() {
-    return (
-      <>
-        {this.state.favoriteArray ? (
-          this.state.favoriteArray.map((drink, i) => (
-            <Grid.Row key={i}>
-              <Grid.Column>
-                <Image src={drink.strDrinkThumb} size="small" centered />
-              </Grid.Column>
-              <Grid.Column verticalAlign="middle">
-                <h3>{drink.strDrink}</h3>
-              </Grid.Column>
-              <Grid.Column verticalAlign="middle">
-                <Modal trigger={<Button>See Details</Button>}>
-                  <CocktailSearchDetail
-                    key={drink.idDrink}
-                    {...drink}
-                    auth={this.props.auth}
-                  />
-                </Modal>
-                <br></br>
-                <br></br>
-                <br></br>
-                <Button.Group>
-                  <Button animated color="grey">
-                    <Button.Content visible>
-                      <Icon name="share" />
-                    </Button.Content>
-                    <Button.Content hidden>Share</Button.Content>
-                  </Button>
-                  <br></br>
-                  <Button animated color="yellow">
-                    <Button.Content visible>
-                      <Icon name="print" />
-                    </Button.Content>
-                    <Button.Content hidden>Print</Button.Content>
-                  </Button>
-                  <br></br>
-                  <Button
-                    animated
-                    color="red"
-                    onClick={() => {
-                      this.setState({ show: true });
-                    }}
-                  >
-                    <Button.Content visible>
-                      <Icon name="delete" />
-                    </Button.Content>
-                    <Button.Content hidden>Delete</Button.Content>
-                  </Button>
-                  <Confirm
-                    open={this.state.show}
-                    onConfirm={() => {
-                      this.deleteFavorite(this.findFavorite(drink.idDrink));
-                      this.setState({ show: false });
-                    }}
-                    onCancel={() => {
-                      this.setState({ show: false });
-                    }}
-                  />
-                </Button.Group>
-              </Grid.Column>
-            </Grid.Row>
-          ))
-        ) : (
-          <div>Loading...</div>
-        )}
-      </>
     );
-  }
+  };
+
+  handleShowChange = () => {
+    this.setState({ show: !this.state.show });
+  };
+
   render() {
-    const { favoritesLoading } = this.state;
+    const { favoritesLoading, favoriteArray } = this.state;
 
     if (favoritesLoading) return "Loading...";
     return (
@@ -170,7 +100,20 @@ class Favorites extends Component {
           style={{ marginLeft: "auto", marginRight: "auto", width: "75%" }}
         >
           <Grid columns={3} divided celled>
-            {this.showFavorites()}
+            {favoriteArray ? (
+              favoriteArray.map(drink => (
+                <FavoriteDetail
+                  key={parseInt(drink.idDrink)}
+                  {...drink}
+                  auth={this.props.auth}
+                  show={this.state.show}
+                  handleShowChange={this.handleShowChange}
+                  deleteFavorite={this.deleteFavorite}
+                />
+              ))
+            ) : (
+              <div>Loading...</div>
+            )}
           </Grid>
         </Segment>
       </div>
