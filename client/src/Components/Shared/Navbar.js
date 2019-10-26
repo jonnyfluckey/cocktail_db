@@ -8,7 +8,7 @@ export default class Navbar extends Component {
     return (
       <AuthContext.Consumer>
         {auth => (
-          <Menu inverted style={{ margin: "0" }}>
+          <Menu stackable inverted style={{ margin: "0" }}>
             <Menu.Item as={NavLink} to="/random">
               Random Cocktail
             </Menu.Item>

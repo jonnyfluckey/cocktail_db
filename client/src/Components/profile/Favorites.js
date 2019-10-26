@@ -100,7 +100,7 @@ class Favorites extends Component {
           raised
           style={{ marginLeft: "auto", marginRight: "auto", width: "75%" }}
         >
-          <Grid columns={3} divided celled>
+          <Grid stackable columns={3} divided celled>
             {favoriteArray ? (
               favoriteArray.map(drink => (
                 <FavoriteDetail
