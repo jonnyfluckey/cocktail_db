@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, Modal, Button, Image, Icon, Confirm } from "semantic-ui-react";
+import { Grid, Modal, Button, Image, Icon } from "semantic-ui-react";
 import CocktailSearchDetail from "../CocktailSearchDetail";
 
 const FavoriteDetail = props => {

@@ -21,7 +21,6 @@ function RandomCocktail() {
     background: {
       position: "absolute",
       backgroundColor: "#E4FAFF",
-      height: "100%",
       width: "100%",
       padding: "50px"
     },
@@ -38,7 +37,7 @@ function RandomCocktail() {
   const ingredientList = () => {
     const ingredients = Object.entries(drinkInfo);
     const result = [];
-    ingredients.map((x, i) => {
+    ingredients.forEach((_, i) => {
       if (
         ingredients[i][0].includes("Ingredient") === true &&
         ingredients[i][1] !== "" &&
@@ -53,7 +52,7 @@ function RandomCocktail() {
   const measureList = () => {
     const measures = Object.entries(drinkInfo);
     const result = [];
-    measures.map((x, i) => {
+    measures.forEach((_, i) => {
       if (
         measures[i][0].includes("Measure") === true &&
         measures[i][1] !== "" &&

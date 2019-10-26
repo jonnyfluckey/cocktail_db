@@ -65,6 +65,7 @@ class Favorites extends Component {
         .then(() => {
           this.setState({ favoritesLoading: false });
         });
+      return null;
     });
   }
 
