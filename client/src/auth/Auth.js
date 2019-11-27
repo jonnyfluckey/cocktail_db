@@ -2,6 +2,13 @@ import auth0 from "auth0-js";
 
 const REDIRECT_ON_LOGIN = "redirect_on_login";
 
+const REACT_APP_AUTH0_DOMAIN = "auth0-test-dev.auth0.com";
+
+const REACT_APP_AUTH0_CLIENT_ID = "eMKozO6q16svH3WMbctPhAI8BiUsbLJ7";
+
+const REACT_APP_AUTH0_CALLBACK_URL =
+  "https://fluckey-cocktail-db.herokuapp.com/callback";
+
 // eslint-disable-next-line
 let _idToken = null;
 let _accessToken = null;
@@ -14,10 +21,9 @@ export default class Auth {
     this.userProfile = null;
     this.requestedScopes = "openid profile email";
     this.auth0 = new auth0.WebAuth({
-      domain: process.env.REACT_APP_AUTH0_DOMAIN,
-      clientID: process.env.REACT_APP_AUTH0_CLIENT_ID,
-      redirectUri: process.env.REACT_APP_AUTH0_CALLBACK_URL,
-      audience: process.env.REACT_APP_AUTH0_AUDIENCE,
+      domain: REACT_APP_AUTH0_DOMAIN,
+      clientID: REACT_APP_AUTH0_CLIENT_ID,
+      redirectUri: REACT_APP_AUTH0_CALLBACK_URL,
       responseType: "token id_token",
       scope: this.requestedScopes
     });
@@ -66,8 +72,8 @@ export default class Auth {
 
   logout = () => {
     this.auth0.logout({
-      clientID: process.env.REACT_APP_AUTH0_CLIENT_ID,
-      returnTo: "http://localhost:3000"
+      clientID: REACT_APP_AUTH0_CLIENT_ID,
+      returnTo: "https://fluckey-cocktail-db.herokuapp.com/"
     });
   };
 
