@@ -2,6 +2,9 @@
   "name": "cocktail_db",
   "version": "1.0.0",
   "main": "index.js",
+  "engines": {
+    "node": "11.11.0"
+  },
   "repository": "git@github.com:jonnyfluckey/cocktail_db.git",
   "author": "Jonathon Fluckey <jonathon.fluckey@gmail.com>",
   "license": "MIT",
