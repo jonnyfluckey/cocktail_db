@@ -78,6 +78,7 @@ class CocktailSearch extends Component {
             onSearchChange={e => this.onChangeHandler(e)}
             loading={this.state.loading}
             showNoResults={false}
+            data-cy="input"
           />
           <br></br>
           <h3>Search Results:</h3>

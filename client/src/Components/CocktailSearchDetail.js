@@ -8,8 +8,17 @@ function CocktailSearchDetail(props) {
   const [wasSuccessful, setWasSuccessful] = useState(false);
 
   useEffect(() => {
-    loadUserProfile();
-  });
+    if (profile) {
+      axios
+        .post("/api/recipes", {
+          email: profile.email,
+          drinkid: props.idDrink
+        })
+        .then(response => {
+          setWasSuccessful(true);
+        });
+    }
+  }, [profile, props]);
 
   function loadUserProfile() {
     props.auth.getProfile(
@@ -18,14 +27,7 @@ function CocktailSearchDetail(props) {
     );
   }
   function storeDrink() {
-    axios
-      .post("/api/recipes", {
-        email: profile.email,
-        drinkid: props.idDrink
-      })
-      .then(response => {
-        setWasSuccessful(true);
-      });
+    loadUserProfile();
   }
   return (
     <>
