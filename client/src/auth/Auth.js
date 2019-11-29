@@ -2,12 +2,11 @@ import auth0 from "auth0-js";
 
 const REDIRECT_ON_LOGIN = "redirect_on_login";
 
-// const REACT_APP_AUTH0_DOMAIN = "auth0-test-dev.auth0.com";
+// const AUTH0_DOMAIN = "small-boat-3167.auth0.com";
 
-// const REACT_APP_AUTH0_CLIENT_ID = "eMKozO6q16svH3WMbctPhAI8BiUsbLJ7";
+// const AUTH0_CLIENT_ID = "q1mxjISBo22ABgIbl5fmVydap7HL27Wh";
 
-// const REACT_APP_AUTH0_CALLBACK_URL =
-//   "https://fluckey-cocktail-db.herokuapp.com/callback";
+// const AUTH0_CALLBACK_URL = "http://localhost:3000/callback";
 
 // eslint-disable-next-line
 let _idToken = null;
@@ -21,9 +20,9 @@ export default class Auth {
     this.userProfile = null;
     this.requestedScopes = "openid profile email";
     this.auth0 = new auth0.WebAuth({
-      domain: process.env.REACT_APP_AUTH0_DOMAIN,
-      clientID: process.env.REACT_APP_AUTH0_CLIENT_ID,
-      redirectUri: process.env.REACT_APP_AUTH0_CALLBACK_URL,
+      domain: AUTH0_DOMAIN,
+      clientID: AUTH0_CLIENT_ID,
+      redirectUri: AUTH0_CALLBACK_URL,
       responseType: "token id_token",
       scope: this.requestedScopes
     });
@@ -72,7 +71,7 @@ export default class Auth {
 
   logout = () => {
     this.auth0.logout({
-      clientID: process.env.REACT_APP_AUTH0_CLIENT_ID,
+      clientID: AUTH0_CLIENT_ID,
       returnTo: "https://fluckey-cocktail-db.herokuapp.com"
     });
   };
