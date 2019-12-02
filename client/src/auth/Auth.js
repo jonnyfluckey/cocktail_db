@@ -20,9 +20,9 @@ export default class Auth {
     this.userProfile = null;
     this.requestedScopes = "openid profile email";
     this.auth0 = new auth0.WebAuth({
-      domain: AUTH0_DOMAIN,
-      clientID: AUTH0_CLIENT_ID,
-      redirectUri: AUTH0_CALLBACK_URL,
+      domain: process.env.REACT_APP_AUTH0_DOMAIN,
+      clientID: process.env.REACT_APP_AUTH0_CLIENT_ID,
+      redirectUri: process.env.REACT_APP_AUTH0_CALLBACK_URL,
       responseType: "token id_token",
       scope: this.requestedScopes
     });
@@ -71,8 +71,8 @@ export default class Auth {
 
   logout = () => {
     this.auth0.logout({
-      clientID: AUTH0_CLIENT_ID,
-      returnTo: "https://fluckey-cocktail-db.herokuapp.com"
+      clientID: process.env.REACT_APP_AUTH0_CLIENT_ID,
+      returnTo: "http://localhost:3000"
     });
   };
 
