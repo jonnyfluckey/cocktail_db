@@ -2,12 +2,6 @@ import auth0 from "auth0-js";
 
 const REDIRECT_ON_LOGIN = "redirect_on_login";
 
-// const AUTH0_DOMAIN = "small-boat-3167.auth0.com";
-
-// const AUTH0_CLIENT_ID = "q1mxjISBo22ABgIbl5fmVydap7HL27Wh";
-
-// const AUTH0_CALLBACK_URL = "http://localhost:3000/callback";
-
 // eslint-disable-next-line
 let _idToken = null;
 let _accessToken = null;
@@ -72,7 +66,7 @@ export default class Auth {
   logout = () => {
     this.auth0.logout({
       clientID: process.env.REACT_APP_AUTH0_CLIENT_ID,
-      returnTo: "http://localhost:3000"
+      returnTo: "https://fluckey-cocktail-db.herokuapp.com"
     });
   };
 
