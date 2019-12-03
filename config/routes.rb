@@ -4,6 +4,6 @@ Rails.application.routes.draw do
     resources :recipes, :constraints  => { :id => /[0-z\.]+/ }
 
     get 'cocktails/showbyid/:id', to: 'cocktails#showbyid'
-    get '*other', to: 'static#index'
   end
+  get '*other', to: 'static#index'
 end
