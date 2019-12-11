@@ -96,12 +96,12 @@ function CocktailSearchDetail(props) {
           <p>Instructions:</p>
           <p>{props.strInstructions}</p>
           <br></br>
-          {props.auth.isAuthenticated() ? (
+          {props.auth.isAuthenticated() && !props.favorite ? (
             <Button color="blue" onClick={() => storeDrink()}>
               <Icon name="glass martini" />
               Save to Favorites
             </Button>
-          ) : (
+          ) : props.favorite ? null : (
             <Button color="blue" onClick={props.auth.login}>
               <Icon name="glass martini" />
               Save to Favorites

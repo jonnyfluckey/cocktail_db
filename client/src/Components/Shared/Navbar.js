@@ -18,13 +18,12 @@ export default class Navbar extends Component {
             {auth.isAuthenticated() && (
               <Dropdown item text="Profile" pointing>
                 <Dropdown.Menu>
-                  <Dropdown.Item as={NavLink} to="/profile">
+                  <Dropdown.Item as={NavLink} to="/profile" disabled>
                     About You
                   </Dropdown.Item>
                   <Dropdown.Item as={NavLink} to="/favorites">
                     Favorites
                   </Dropdown.Item>
-                  <Dropdown.Item disabled>Preferences</Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
             )}

@@ -18,13 +18,14 @@ const FavoriteDetail = props => {
             key={props.idDrink}
             {...props}
             auth={props.auth}
+            favorite={true}
           />
         </Modal>
         <br></br>
         <br></br>
         <br></br>
         <Button.Group>
-          <Button animated color="grey">
+          {/* <Button animated color="grey">
             <Button.Content visible>
               <Icon name="share" />
             </Button.Content>
@@ -36,7 +37,7 @@ const FavoriteDetail = props => {
               <Icon name="print" />
             </Button.Content>
             <Button.Content hidden>Print</Button.Content>
-          </Button>
+          </Button> */}
           <br></br>
           <Button
             animated
