@@ -13,7 +13,7 @@ const FavoriteDetail = props => {
         <h3>{props.strDrink}</h3>
       </Grid.Column>
       <Grid.Column verticalAlign="middle">
-        <Modal trigger={<Button>See Details</Button>}>
+        <Modal trigger={<Button>See Details</Button>} closeIcon>
           <CocktailSearchDetail
             key={props.idDrink}
             {...props}
@@ -37,8 +37,8 @@ const FavoriteDetail = props => {
               <Icon name="print" />
             </Button.Content>
             <Button.Content hidden>Print</Button.Content>
-          </Button> */}
-          <br></br>
+          </Button>
+          <br></br> */}
           <Button
             animated
             color="red"

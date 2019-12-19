@@ -1,7 +1,16 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { Segment, Grid } from "semantic-ui-react";
+import {
+  Segment,
+  Grid,
+  Responsive,
+  Image,
+  Modal,
+  Button,
+  Icon
+} from "semantic-ui-react";
 import FavoriteDetail from "./FavoriteDetail";
+import CocktailSearchDetail from "../CocktailSearchDetail";
 
 const style = {
   background: {
@@ -96,7 +105,9 @@ class Favorites extends Component {
     return (
       <div style={style.background}>
         <h1>Favorites page</h1>
-        <Segment
+        <Responsive
+          as={Segment}
+          minWidth={750}
           raised
           style={{ marginLeft: "auto", marginRight: "auto", width: "75%" }}
         >
@@ -116,7 +127,51 @@ class Favorites extends Component {
               <div>Loading...</div>
             )}
           </Grid>
-        </Segment>
+        </Responsive>
+        <Responsive
+          as={Segment}
+          maxWidth={749}
+          raised
+          style={{ marginLeft: "auto", marginRight: "auto", width: "75%" }}
+        >
+          {favoriteArray ? (
+            favoriteArray.map(drink => (
+              <div
+                style={{
+                  display: "inline-block",
+                  padding: "10px 10px 10px 10px"
+                }}
+              >
+                <Image src={drink.strDrinkThumb} size="small" />
+                <h3>{drink.strDrink}</h3>
+                <Modal trigger={<Button>See Details</Button>} closeIcon>
+                  <CocktailSearchDetail
+                    key={drink.idDrink}
+                    {...drink}
+                    auth={this.props.auth}
+                    favorite={true}
+                  />
+                </Modal>
+                <br />
+                <br />
+                <Button
+                  animated
+                  color="red"
+                  onClick={() => {
+                    this.deleteFavorite(drink.idDrink);
+                  }}
+                >
+                  <Button.Content visible>
+                    <Icon name="delete" />
+                  </Button.Content>
+                  <Button.Content hidden>Delete</Button.Content>
+                </Button>
+              </div>
+            ))
+          ) : (
+            <div>Loading...</div>
+          )}
+        </Responsive>
       </div>
     );
   }

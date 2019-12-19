@@ -26,11 +26,17 @@ function RandomCocktail() {
     },
     list: {
       listStyleType: "none",
-      display: "inline-block"
+      display: "inline-block",
+      paddingLeft: 0
     },
     container: {
       paddingRight: "33%",
       paddingLeft: "33%"
+    },
+    mobile: {},
+    list2: {
+      listStyleType: "none",
+      display: "inline-block"
     }
   };
 
@@ -64,12 +70,14 @@ function RandomCocktail() {
     return result;
   };
 
+  const breakpoint = window.matchMedia("(max-width: 700px)");
+
   return (
     <>
       <div style={style.background}>
         <h1 style={{ textAlign: "center" }}>Cocktail of the Day</h1>
         <br></br>
-        <div style={style.container}>
+        <div style={breakpoint.matches ? style.mobile : style.container}>
           <Card style={style.center} fluid>
             <Image src={drinkInfo.strDrinkThumb} centered size={"huge"} />
             <Card.Content>
@@ -80,7 +88,7 @@ function RandomCocktail() {
                     return <li key={drinkInfo.idDrink}>{x.measure}</li>;
                   })}
                 </ul>
-                <ul style={style.list}>
+                <ul style={style.list2}>
                   {ingredientList().map(x => {
                     return <li key={drinkInfo.idDrink}>{x.ingredient}</li>;
                   })}

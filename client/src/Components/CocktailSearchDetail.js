@@ -35,7 +35,7 @@ function CocktailSearchDetail(props) {
       <Modal.Content image scrolling>
         <Image src={props.strDrinkThumb} wrapped size="medium" />
         <Modal.Description>
-          <Table color="blue">
+          <Table color="blue" unstackable>
             <Table.Header>
               <Table.Row>
                 <Table.HeaderCell>Amount</Table.HeaderCell>

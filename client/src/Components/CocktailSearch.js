@@ -40,6 +40,7 @@ class CocktailSearch extends Component {
 
   renderCocktails = () => {
     let noCocktails = <h3>Could not find a cocktail, try again</h3>;
+    const breakpoint = window.matchMedia("(max-width: 700px)");
     if (this.state.cocktails) {
       const drinks = this.state.cocktails.map(drink => {
         return (
@@ -48,7 +49,11 @@ class CocktailSearch extends Component {
           >
             <Image src={drink.strDrinkThumb} size="small" />
             <h3>{drink.strDrink}</h3>
-            <Modal trigger={<Button>See Details</Button>}>
+            <Modal
+              trigger={<Button>See Details</Button>}
+              closeIcon
+              size={breakpoint.matches ? "mini" : "large"}
+            >
               <CocktailSearchDetail
                 key={drink.idDrink}
                 {...drink}
